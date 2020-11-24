@@ -6,15 +6,6 @@
 
   <ItemGroup>
     <Folder Include="API\ViewModels\" />
-    <Folder Include="API\Routes\" />
-    <Folder Include="API\Responses\" />
-    <Folder Include="API\Requests\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Filters\" />
-    <Folder Include="Mapper\" />
-    <Folder Include="WebServices\Interfaces\" />
-    <Folder Include="WebServices\Services\" />
-    <Folder Include="WebServices\Results\" />
   </ItemGroup>
 
   <ItemGroup>
