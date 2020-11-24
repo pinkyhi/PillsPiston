@@ -10,5 +10,9 @@ namespace PillsPiston.DAL.Entities
     {
         [Required]
         public DateTime RegistrationDate { get; set; }
+
+        public IEnumerable<Relationship> Watchers { get; set; }
+
+        public IEnumerable<Relationship> Subjects { get; set; }
     }
 }
