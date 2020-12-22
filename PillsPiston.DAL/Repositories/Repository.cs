@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using PillsPiston.DAL.Entities.BaseEntities;
 using PillsPiston.DAL.Interfaces;
 using System;
@@ -17,20 +18,6 @@ namespace PillsPiston.DAL.Repositories
         public Repository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
-        }
-
-        public IEnumerable<T> GetRange<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
-            where T : BaseDto
-        {
-            var query = this.Include(tracking, includeProperties);
-            return query.Where(predicate);
-        }
-
-        public T Get<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
-            where T : BaseDto
-        {
-            var query = this.Include(tracking, includeProperties);
-            return query.AsEnumerable().Where(e => predicate(e)).FirstOrDefault();
         }
 
         public T Add<T>(T exemplar)
@@ -76,20 +63,6 @@ namespace PillsPiston.DAL.Repositories
             this.dbContext.SaveChanges();
         }
 
-        public async Task<IEnumerable<T>> GetRangeAsync<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
-            where T : BaseDto
-        {
-            var query = await this.Include(tracking, includeProperties).ToListAsync();
-            return query.Where(predicate);
-        }
-
-        public async Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
-            where T : BaseDto
-        {
-            var query = await this.Include(tracking, includeProperties).ToListAsync();
-            return query.FirstOrDefault(predicate);
-        }
-
         public async Task<T> AddAsync<T>(T exemplar)
             where T : BaseDto
         {
@@ -133,19 +106,65 @@ namespace PillsPiston.DAL.Repositories
             return this.dbContext.SaveChangesAsync();
         }
 
-        private IQueryable<T> Include<T>(bool tracking, params Expression<Func<T, object>>[] includeProperties)
-            where T : BaseDto
+        public IEnumerable<T> GetRange<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
         {
-            if (tracking)
+            IQueryable<T> query = this.dbContext.Set<T>();
+            if (!tracking)
             {
-                IQueryable<T> query = this.dbContext.Set<T>();
-                return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+                query = query.AsNoTracking();
             }
-            else
+            if (include != null)
             {
-                IQueryable<T> query = this.dbContext.Set<T>().AsNoTracking();
-                return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+                query = include(query);
             }
+
+            return query.Where(predicate);
+        }
+
+        public T Get<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
+        {
+            IQueryable<T> query = this.dbContext.Set<T>();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return query.FirstOrDefault(e => predicate(e));
+        }
+
+        public async Task<IEnumerable<T>> GetRangeAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
+        {
+            IQueryable<T> query = this.dbContext.Set<T>();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            List<T> tList = await query.ToListAsync();
+            return tList.Where(e => predicate(e));
+        }
+
+        public Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
+        {
+            IQueryable<T> query = this.dbContext.Set<T>();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return query.FirstOrDefaultAsync(e => predicate(e));
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using PillsPiston.DAL.Entities.BaseEntities;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using PillsPiston.DAL.Entities.BaseEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +11,10 @@ namespace PillsPiston.DAL.Interfaces
 {
     public interface IRepository
     {
-        IEnumerable<T> GetRange<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
-           where T : BaseDto;
+        IEnumerable<T> GetRange<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+            where T : BaseDto;
 
-        T Get<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
+        T Get<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
             where T : BaseDto;
 
         T Add<T>(T exemplar)
@@ -33,10 +35,10 @@ namespace PillsPiston.DAL.Interfaces
         void UpdateRange<T>(IEnumerable<T> range)
             where T : BaseDto;
 
-        Task<IEnumerable<T>> GetRangeAsync<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
+        Task<IEnumerable<T>> GetRangeAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
             where T : BaseDto;
 
-        Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
+        Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
             where T : BaseDto;
 
         Task<T> AddAsync<T>(T exemplar)

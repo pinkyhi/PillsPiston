@@ -14,5 +14,7 @@ namespace PillsPiston.DAL.Entities
         public IEnumerable<Relationship> Watchers { get; set; }
 
         public IEnumerable<Relationship> Subjects { get; set; }
+
+        public IEnumerable<Device> Devices { get; set; } 
     }
 }

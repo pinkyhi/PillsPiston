@@ -13,6 +13,6 @@ namespace PillsPiston.DAL.Entities
 
         public string Name { get; set; }
 
-        public DateTime DateTime {get;set;}
+        public TimeSpan Time { get; set; }
     }
 }

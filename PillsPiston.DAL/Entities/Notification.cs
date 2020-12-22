@@ -12,5 +12,7 @@ namespace PillsPiston.DAL.Entities
         public Cell Cell { get; set; }
 
         public int NotificationStatus { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 }

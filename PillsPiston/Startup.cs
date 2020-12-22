@@ -179,7 +179,7 @@ namespace PillsPiston
             if (!this.Env.IsDevelopment())
             {
                 Console.WriteLine("Database in prod mode");
-                connection = this.Configuration.GetConnectionString("DefaultConnectionProd");
+                connection = this.Configuration.GetConnectionString("DefaultConnectionDev");
             }
             else
             {

@@ -10,8 +10,8 @@ using PillsPiston.DAL;
 namespace PillsPiston.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201124094637_InitAuth")]
-    partial class InitAuth
+    [Migration("20201222004738_initLogic")]
+    partial class initLogic
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,6 +152,90 @@ namespace PillsPiston.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Adoption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CellId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CellId");
+
+                    b.ToTable("Adoption");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Cell", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DeviceId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("Cell");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Device", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Device");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CellId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NotificationStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CellId");
+
+                    b.ToTable("Notification");
+                });
+
             modelBuilder.Entity("PillsPiston.DAL.Entities.RefreshToken", b =>
                 {
                     b.Property<string>("Token")
@@ -181,6 +265,24 @@ namespace PillsPiston.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Relationship", b =>
+                {
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WatcherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RelationshipStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubjectId", "WatcherId");
+
+                    b.HasIndex("WatcherId");
+
+                    b.ToTable("Relationship");
                 });
 
             modelBuilder.Entity("PillsPiston.DAL.Entities.User", b =>
@@ -302,6 +404,46 @@ namespace PillsPiston.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Adoption", b =>
+                {
+                    b.HasOne("PillsPiston.DAL.Entities.Cell", "Cell")
+                        .WithMany("Adoptions")
+                        .HasForeignKey("CellId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Cell");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Cell", b =>
+                {
+                    b.HasOne("PillsPiston.DAL.Entities.Device", "Device")
+                        .WithMany("Cells")
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Device");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Device", b =>
+                {
+                    b.HasOne("PillsPiston.DAL.Entities.User", "User")
+                        .WithMany("Devices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Notification", b =>
+                {
+                    b.HasOne("PillsPiston.DAL.Entities.Cell", "Cell")
+                        .WithMany("Notifications")
+                        .HasForeignKey("CellId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Cell");
+                });
+
             modelBuilder.Entity("PillsPiston.DAL.Entities.RefreshToken", b =>
                 {
                     b.HasOne("PillsPiston.DAL.Entities.User", "User")
@@ -309,6 +451,46 @@ namespace PillsPiston.DAL.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Relationship", b =>
+                {
+                    b.HasOne("PillsPiston.DAL.Entities.User", "Subject")
+                        .WithMany("Subjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("PillsPiston.DAL.Entities.User", "Watcher")
+                        .WithMany("Watchers")
+                        .HasForeignKey("WatcherId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Watcher");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Cell", b =>
+                {
+                    b.Navigation("Adoptions");
+
+                    b.Navigation("Notifications");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.Device", b =>
+                {
+                    b.Navigation("Cells");
+                });
+
+            modelBuilder.Entity("PillsPiston.DAL.Entities.User", b =>
+                {
+                    b.Navigation("Devices");
+
+                    b.Navigation("Subjects");
+
+                    b.Navigation("Watchers");
                 });
 #pragma warning restore 612, 618
         }
