@@ -26,7 +26,7 @@ namespace PillsPiston.Controllers
         }
 
         [HttpPost(DefaultRoutes.Admin.Cells)]
-        public async Task<IActionResult> AddNewCells(NewCellsRequest request)
+        public async Task<IActionResult> AddNewCells([FromBody]NewCellsRequest request)
         {
             List<CellContract> cellContracts = new List<CellContract>();
             for(int i = 0; i < request.Count; i++)
@@ -38,7 +38,7 @@ namespace PillsPiston.Controllers
         }
 
         [HttpPost(DefaultRoutes.Admin.Devices)]
-        public async Task<IActionResult> AddNewDevices(NewDevicesRequest request)
+        public async Task<IActionResult> AddNewDevices([FromBody]NewDevicesRequest request)
         {
             List<DeviceContract> cellContracts = new List<DeviceContract>();
             for (int i = 0; i < request.Count; i++)
