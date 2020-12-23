@@ -41,5 +41,10 @@
 
             public const string Adoption = Base + "/profile/adoption";
         }
+
+        public static class Notification
+        {
+            public const string Default = Base + "/notification";
+        }
     }
 }

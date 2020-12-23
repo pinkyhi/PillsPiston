@@ -1,4 +1,5 @@
-﻿using PillsPiston.DAL.Entities.BaseEntities;
+﻿using PillsPiston.Core.Enums;
+using PillsPiston.DAL.Entities.BaseEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace PillsPiston.DAL.Entities
 
         public Cell Cell { get; set; }
 
-        public int NotificationStatus { get; set; }
+        public NotificationStatusesEnum NotificationStatus { get; set; }
 
         public DateTime DateTime { get; set; }
     }
