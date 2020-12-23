@@ -153,6 +153,9 @@
   <data name="RefreshTokenWrongJtiException" xml:space="preserve">
     <value>Refresh token is wrong cause wrong jti</value>
   </data>
+  <data name="RelationshipNotFoundException" xml:space="preserve">
+    <value>Appropriate elements not found</value>
+  </data>
   <data name="TokenIsNotExpiredExeption" xml:space="preserve">
     <value>Token isn't expired</value>
   </data>

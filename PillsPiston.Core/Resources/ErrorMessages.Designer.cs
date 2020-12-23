@@ -169,6 +169,15 @@ namespace PillsPiston.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Appropriate elements not found.
+        /// </summary>
+        public static string RelationshipNotFoundException {
+            get {
+                return ResourceManager.GetString("RelationshipNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Token isn&apos;t expired.
         /// </summary>
         public static string TokenIsNotExpiredExeption {
