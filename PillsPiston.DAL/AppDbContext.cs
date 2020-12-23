@@ -138,6 +138,9 @@ namespace PillsPiston.DAL
             modelBuilder.Entity<Device>()
                 .Property(c => c.Model)
                 .HasConversion<int>();
+            modelBuilder.Entity<Relationship>()
+                .Property(c => c.RelationshipStatus)
+                .HasConversion<int>();
 
             modelBuilder.Entity<Relationship>()
                 .HasKey(e => new { e.SubjectId, e.WatcherId });

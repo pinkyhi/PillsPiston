@@ -1,4 +1,5 @@
-﻿using PillsPiston.DAL.Entities.BaseEntities;
+﻿using PillsPiston.Core.Enums;
+using PillsPiston.DAL.Entities.BaseEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,6 @@ namespace PillsPiston.DAL.Entities
 
         public User Subject { get; set; }
 
-        public int RelationshipStatus { get; set; }
+        public RelationshipStatusesEnum RelationshipStatus { get; set; }
     }
 }

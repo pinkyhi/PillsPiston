@@ -32,5 +32,12 @@
 
             public const string Connection = Base + "/device/connection";
         }
+
+        public static class Profile
+        {
+            public const string Relationships = Base + "/profile/relationship";
+
+            public const string Cells = Base + "/profile/cell";
+        }
     }
 }

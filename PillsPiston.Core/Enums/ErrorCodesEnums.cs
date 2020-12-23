@@ -37,5 +37,10 @@
             AlreadyConnected = 4020,
             NotConnected = 4021
         }
+
+        public enum Profile
+        {
+            RelationshipNotFound = 4030,
+        }
     }
 }

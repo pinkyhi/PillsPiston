@@ -211,6 +211,8 @@ namespace PillsPiston
         {
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IDeviceService, DeviceService>();
+            services.AddScoped<IProfileService, ProfileService>();
+
         }
 
         private void InstallAutoMapper(IServiceCollection services)
