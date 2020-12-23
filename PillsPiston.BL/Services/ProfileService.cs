@@ -1,4 +1,6 @@
-﻿using PillsPiston.BL.Interface;
+﻿using AutoMapper;
+using PillsPiston.BL.Contracts;
+using PillsPiston.BL.Interface;
 using PillsPiston.Core.Enums;
 using PillsPiston.Core.Exceptions.Profile;
 using PillsPiston.DAL.Entities;
@@ -13,9 +15,12 @@ namespace PillsPiston.BL.Services
     public class ProfileService : IProfileService
     {
         private readonly IRepository repository;
-        public ProfileService(IRepository repository)
+        private readonly IMapper mapper;
+
+        public ProfileService(IRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
         public async Task<Cell> RenameCell(string cellId, string name)
         {
@@ -80,6 +85,18 @@ namespace PillsPiston.BL.Services
                 RelationshipStatus = RelationshipStatusesEnum.Requested
             };
             return await this.repository.AddAsync(relationship);
+        }
+
+        public Task<Adoption> NewAdoption(AdoptionContract contract)
+        {
+            Adoption adoption = this.mapper.Map<Adoption>(contract);
+            return repository.AddAsync(adoption);
+        }
+
+        public async Task DeleteAdoption(int id)
+        {
+            Adoption adoption = await repository.GetAsync<Adoption>(true, a => a.Id == id);
+            await repository.DeleteAsync(adoption);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PillsPiston.DAL.Entities;
+﻿using PillsPiston.BL.Contracts;
+using PillsPiston.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,10 @@ namespace PillsPiston.BL.Interface
     public interface IProfileService
     {
         public Task<Cell> RenameCell(string cellId, string name);
+
+        public Task<Adoption> NewAdoption(AdoptionContract contract);
+
+        public Task DeleteAdoption(int id);
 
         public Task<Relationship> SendWatchRequest(string watcherId, string subjectId);
 

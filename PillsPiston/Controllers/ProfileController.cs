@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PillsPiston.API.Requests.Profile;
 using PillsPiston.API.Routes;
+using PillsPiston.BL.Contracts;
 using PillsPiston.BL.Interface;
 using PillsPiston.Core.Resources;
 using PillsPiston.Filters;
@@ -21,9 +23,10 @@ namespace PillsPiston.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService profileService;
-
-        public ProfileController(IProfileService profileService)
+        private readonly IMapper mapper;
+        public ProfileController(IProfileService profileService, IMapper mapper)
         {
+            this.mapper = mapper;
             this.profileService = profileService;
         }
 
@@ -32,6 +35,20 @@ namespace PillsPiston.Controllers
         {
             var cell = await profileService.RenameCell(request.CellId, request.Name);
             return Ok(cell);
+        }
+
+        [HttpPost(DefaultRoutes.Profile.Adoption)]
+        public async Task<IActionResult> AddAdoption([FromBody] NewAdoptionRequest request)
+        {
+            var adoption = await profileService.NewAdoption(mapper.Map<AdoptionContract>(request));
+            return Ok(adoption);
+        }
+
+        [HttpDelete(DefaultRoutes.Profile.Adoption)]
+        public async Task<IActionResult> DeleteAdoption([FromBody] int id)
+        {
+            await profileService.DeleteAdoption(id);
+            return Ok();
         }
 
         [HttpPost(DefaultRoutes.Profile.Relationships)]

@@ -14,7 +14,7 @@ namespace PillsPiston.Controllers
     [ModelValidation]
     [ServiceFilter(typeof(ExceptionFilterAttribute))]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class AdoptionController : ControllerBase
+    public class NotificationController : ControllerBase
     {
     }
 }

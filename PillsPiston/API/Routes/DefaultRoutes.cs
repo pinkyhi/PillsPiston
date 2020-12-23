@@ -38,6 +38,8 @@
             public const string Relationships = Base + "/profile/relationship";
 
             public const string Cells = Base + "/profile/cell";
+
+            public const string Adoption = Base + "/profile/adoption";
         }
     }
 }
