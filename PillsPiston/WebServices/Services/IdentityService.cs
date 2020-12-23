@@ -66,7 +66,6 @@ namespace PillsPiston.WebServices.Services
             };
 
             await this.userManager.CreateAsync(newUser, password);
-
             return this.GenerateAuthenticationResult(newUser);
         }
 
@@ -74,15 +73,19 @@ namespace PillsPiston.WebServices.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(JwtOptions.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
+            var roles = this.userManager.GetRolesAsync(user).Result;
+            var claims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(StringConstants.JwtClaimUsername, user.UserName),
-                    new Claim(StringConstants.JwtClaimId, user.Id)
-                }),
+                    new Claim(StringConstants.JwtClaimId, user.Id),
+                    new Claim(StringConstants.JwtClaimRole, roles.FirstOrDefault() ?? "")
+
+                };
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(JwtOptions.TokenLifeTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -166,7 +169,7 @@ namespace PillsPiston.WebServices.Services
                     ValidateIssuer = false,
                     RequireExpirationTime = true,
                     ValidateLifetime = false,
-                    ClockSkew = TimeSpan.Zero,   // Instead of 5 minutes
+                    ClockSkew = TimeSpan.Zero   // Instead of 5 minutes
                 };
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
                 if (!this.IsJwtWithValidSecurityAlgorithm(validatedToken))

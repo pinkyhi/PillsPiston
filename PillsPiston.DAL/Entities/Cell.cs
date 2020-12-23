@@ -1,4 +1,5 @@
-﻿using PillsPiston.DAL.Entities.BaseEntities;
+﻿using PillsPiston.Core.Enums;
+using PillsPiston.DAL.Entities.BaseEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,8 @@ namespace PillsPiston.DAL.Entities
         public Device Device { get; set; }
 
         public string Name { get; set; }
+
+        public CellModelsEnum Model { get; set; }
 
         public IEnumerable<Adoption> Adoptions { get; set; }
 

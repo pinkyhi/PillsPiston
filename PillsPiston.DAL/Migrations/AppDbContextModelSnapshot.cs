@@ -44,6 +44,15 @@ namespace PillsPiston.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c8047019-3c79-4931-8d17-565e0a3e179e",
+                            ConcurrencyStamp = "79eee7aa-a6fd-490e-8a8b-87c1d7b18eac",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -129,6 +138,13 @@ namespace PillsPiston.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "f3239ef1-0a8e-4177-bcc9-aba6e8c9f40a",
+                            RoleId = "c8047019-3c79-4931-8d17-565e0a3e179e"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -182,6 +198,9 @@ namespace PillsPiston.DAL.Migrations
                     b.Property<string>("DeviceId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Model")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -195,17 +214,20 @@ namespace PillsPiston.DAL.Migrations
                         new
                         {
                             Id = "82c74137-0ac2-4253-847f-91517f0fe65b",
-                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee"
+                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee",
+                            Model = 0
                         },
                         new
                         {
                             Id = "95580112-8343-4bb8-8986-86ce6bcfed56",
-                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee"
+                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee",
+                            Model = 0
                         },
                         new
                         {
                             Id = "d2c5370c-0e4a-4029-80b0-c81b8dd10ca5",
-                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee"
+                            DeviceId = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee",
+                            Model = 0
                         });
                 });
 
@@ -215,7 +237,10 @@ namespace PillsPiston.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Model")
+                    b.Property<int>("Model")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -231,7 +256,7 @@ namespace PillsPiston.DAL.Migrations
                         new
                         {
                             Id = "1fd5ce18-33ed-49d7-9fe5-113fce9dd7ee",
-                            Model = "Basic"
+                            Model = 1
                         });
                 });
 
@@ -373,6 +398,25 @@ namespace PillsPiston.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f3239ef1-0a8e-4177-bcc9-aba6e8c9f40a",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "48b6196a-3a8f-4581-90f7-8357747db012",
+                            Email = "user@example.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "USER@EXAMPLE.COM",
+                            NormalizedUserName = "STRING",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGTyVrwmp9kP+aopbU7o0UE4obPpwMrPgQIBivdapczHKHZyYhDLG594OKMpep/M8A==",
+                            PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2020, 12, 23, 3, 41, 32, 811, DateTimeKind.Local).AddTicks(9416),
+                            SecurityStamp = "IKG47N6O46QYWGSQVCK5JG3RDK34XEZU",
+                            TwoFactorEnabled = false,
+                            UserName = "string"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

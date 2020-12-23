@@ -18,5 +18,12 @@
 
             public const string RefreshToken = Base + "/identity/refreshToken";
         }
+
+        public static class Admin
+        {
+            public const string Devices = Base + "/admin/devices";
+
+            public const string Cells = Base + "/admin/cells";
+        }
     }
 }

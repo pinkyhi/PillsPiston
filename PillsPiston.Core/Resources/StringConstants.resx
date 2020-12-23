@@ -120,6 +120,9 @@
   <data name="JwtClaimId" xml:space="preserve">
     <value>id</value>
   </data>
+  <data name="JwtClaimRole" xml:space="preserve">
+    <value>role</value>
+  </data>
   <data name="JwtClaimUsername" xml:space="preserve">
     <value>username</value>
   </data>

@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PillsPiston.API.Requests.Identity;
 using PillsPiston.API.Responses.Identity;
+using PillsPiston.Core.Resources;
+using PillsPiston.DAL.Entities;
 using PillsPiston.Filters;
 using PillsPiston.WebServices.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PillsPiston.Controllers
@@ -17,11 +21,14 @@ namespace PillsPiston.Controllers
     {
         private readonly IIdentityService identityService;
         private readonly IMapper mapper;
-
-        public IdentityController(IIdentityService identityService, IMapper mapper)
+        RoleManager<IdentityRole> _roleManager;
+        UserManager<User> userManager;
+        public IdentityController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IIdentityService identityService, IMapper mapper)
         {
             this.identityService = identityService;
             this.mapper = mapper;
+            _roleManager = roleManager;
+            this.userManager = userManager;
         }
 
         [HttpPost(API.Routes.DefaultRoutes.Identity.Register)]

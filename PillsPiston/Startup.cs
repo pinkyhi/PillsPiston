@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PillsPiston.BL.Interface;
+using PillsPiston.BL.Services;
 using PillsPiston.Core.Options;
 using PillsPiston.DAL;
 using PillsPiston.DAL.Entities;
@@ -106,7 +109,7 @@ namespace PillsPiston
         {
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v0", new OpenApiInfo { Version = "v0", Title = "MonopolyAPI" });
+                s.SwaggerDoc("v0", new OpenApiInfo { Version = "v0", Title = "PillsPiston" });
 #pragma warning disable SA1118 // Parameter must not span multiple lines
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -136,6 +139,7 @@ namespace PillsPiston
         private void InstallBussinessLogic(IServiceCollection services)
         {
             services.AddScoped<UserManager>();
+            services.AddScoped<RoleManager<IdentityRole>>();
             services.AddScoped<IRepository, Repository>();
         }
 
@@ -191,7 +195,7 @@ namespace PillsPiston
             {
                 options.UseSqlServer(connection);
             });
-            services.AddIdentityCore<User>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;
@@ -205,6 +209,7 @@ namespace PillsPiston
 
         private void InstallPresentation(IServiceCollection services)
         {
+            services.AddScoped<IAdminService, AdminService>();
         }
 
         private void InstallAutoMapper(IServiceCollection services)

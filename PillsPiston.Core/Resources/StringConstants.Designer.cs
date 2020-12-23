@@ -70,6 +70,15 @@ namespace PillsPiston.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to role.
+        /// </summary>
+        public static string JwtClaimRole {
+            get {
+                return ResourceManager.GetString("JwtClaimRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to username.
         /// </summary>
         public static string JwtClaimUsername {
