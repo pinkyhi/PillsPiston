@@ -70,6 +70,24 @@ namespace PillsPiston.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Element isn&apos;t free.
+        /// </summary>
+        public static string ElementAlreadyConnectedException {
+            get {
+                return ResourceManager.GetString("ElementAlreadyConnectedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Element not connected.
+        /// </summary>
+        public static string ElementNotConnectedException {
+            get {
+                return ResourceManager.GetString("ElementNotConnectedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This email is already occupied.
         /// </summary>
         public static string EmailOccupiedException {

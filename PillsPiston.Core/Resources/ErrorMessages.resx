@@ -120,6 +120,12 @@
   <data name="BadModelData" xml:space="preserve">
     <value>Wrong model data</value>
   </data>
+  <data name="ElementAlreadyConnectedException" xml:space="preserve">
+    <value>Element isn't free</value>
+  </data>
+  <data name="ElementNotConnectedException" xml:space="preserve">
+    <value>Element not connected</value>
+  </data>
   <data name="EmailOccupiedException" xml:space="preserve">
     <value>This email is already occupied</value>
   </data>

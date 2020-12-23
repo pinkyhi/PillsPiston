@@ -31,5 +31,11 @@
             NotFoundRefreshToken = 4011,
             WrongJtiRefreshToken = 4012
         }
+
+        public enum Device
+        {
+            AlreadyConnected = 4020,
+            NotConnected = 4021
+        }
     }
 }

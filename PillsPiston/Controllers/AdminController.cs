@@ -31,7 +31,7 @@ namespace PillsPiston.Controllers
             List<CellContract> cellContracts = new List<CellContract>();
             for(int i = 0; i < request.Count; i++)
             {
-                cellContracts.Append(new CellContract { Model = request.Model });
+                cellContracts.Add(new CellContract { Model = request.Model });
             }
             await adminService.AddNewCells(cellContracts.ToArray());
             return Ok();
@@ -43,7 +43,7 @@ namespace PillsPiston.Controllers
             List<DeviceContract> cellContracts = new List<DeviceContract>();
             for (int i = 0; i < request.Count; i++)
             {
-                cellContracts.Append(new DeviceContract { Model = request.Model });
+                cellContracts.Add(new DeviceContract { Model = request.Model });
             }
             await adminService.AddNewDevices(cellContracts.ToArray());
             return Ok();

@@ -152,7 +152,7 @@ namespace PillsPiston.DAL.Repositories
             return tList.Where(e => predicate(e));
         }
 
-        public Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
+        public async Task<T> GetAsync<T>(bool tracking, Func<T, bool> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null) where T : BaseDto
         {
             IQueryable<T> query = this.dbContext.Set<T>();
             if (!tracking)
@@ -164,7 +164,8 @@ namespace PillsPiston.DAL.Repositories
                 query = include(query);
             }
 
-            return query.FirstOrDefaultAsync(e => predicate(e));
+            List<T> tList = await query.ToListAsync();
+            return tList.FirstOrDefault(e => predicate(e));
         }
     }
 }

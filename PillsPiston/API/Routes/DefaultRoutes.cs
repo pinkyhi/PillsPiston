@@ -25,5 +25,12 @@
 
             public const string Cells = Base + "/admin/cells";
         }
+
+        public static class Device
+        {
+            public const string Cells = Base + "/device/cells";
+
+            public const string Connection = Base + "/device/connection";
+        }
     }
 }

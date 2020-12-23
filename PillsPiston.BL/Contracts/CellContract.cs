@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PillsPiston.BL.Contracts
 {
-    [AutoMap(typeof(Cell))]
+    [AutoMap(typeof(Cell), ReverseMap = true)]
     public class CellContract
     {
         public CellModelsEnum Model;

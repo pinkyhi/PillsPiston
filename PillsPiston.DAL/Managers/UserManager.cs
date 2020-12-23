@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PillsPiston.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PillsPiston.DAL.Managers
 {
@@ -16,6 +20,18 @@ namespace PillsPiston.DAL.Managers
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task<User> FindAsync(Func<User, bool> predicate, Func<IQueryable<User>, IIncludableQueryable<User, object>> include = null)
+        {
+            IQueryable<User> query = this.dbContext.Set<User>();
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            List<User> tList = await query.ToListAsync();
+            return tList.FirstOrDefault(e => predicate(e));
         }
     }
 }
