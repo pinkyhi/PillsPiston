@@ -4,10 +4,7 @@ using PillsPiston.Core.Exceptions.Device;
 using PillsPiston.DAL.Entities;
 using PillsPiston.DAL.Interfaces;
 using PillsPiston.DAL.Managers;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PillsPiston.BL.Services

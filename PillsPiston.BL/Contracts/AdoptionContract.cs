@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using PillsPiston.DAL.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PillsPiston.BL.Contracts
 {

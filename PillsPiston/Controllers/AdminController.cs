@@ -6,9 +6,7 @@ using PillsPiston.API.Routes;
 using PillsPiston.BL.Contracts;
 using PillsPiston.BL.Interface;
 using PillsPiston.Filters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PillsPiston.Controllers

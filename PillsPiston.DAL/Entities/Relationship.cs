@@ -1,8 +1,5 @@
 ﻿using PillsPiston.Core.Enums;
 using PillsPiston.DAL.Entities.BaseEntities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PillsPiston.DAL.Entities
 {

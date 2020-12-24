@@ -5,11 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PillsPiston.API.Requests.Identity;
 using PillsPiston.API.Responses.Identity;
-using PillsPiston.Core.Resources;
 using PillsPiston.DAL.Entities;
 using PillsPiston.Filters;
 using PillsPiston.WebServices.Interfaces;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PillsPiston.Controllers

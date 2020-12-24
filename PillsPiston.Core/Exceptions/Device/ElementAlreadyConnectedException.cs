@@ -1,8 +1,5 @@
 ﻿using PillsPiston.Core.Enums;
 using PillsPiston.Core.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PillsPiston.Core.Exceptions.Device
 {
