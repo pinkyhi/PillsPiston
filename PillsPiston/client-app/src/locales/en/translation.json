@@ -1,0 +1,11 @@
+{
+    "login":"Login",
+    "register":"Register",
+    "profile":"Profile",
+    "logout":"Logout",
+    "addDevice":"Add device",
+    "alreadyRegistered":"Already registered",
+    "username":"Username",
+    "password":"Password",
+    "email":"Email"
+}

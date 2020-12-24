@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'bootstrap/dist/css/bootstrap.css';
+import './i18n';
+
 
 const application =(
   <BrowserRouter>

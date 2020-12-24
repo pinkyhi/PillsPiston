@@ -1,0 +1,11 @@
+{
+    "login":"Вхід",
+    "register":"Реєстрація",
+    "profile":"Профіль",
+    "logout":"Вихід",
+    "addDevice":"Додати пристрій",
+    "alreadyRegistered":"Вже зареєстровані",
+    "username":"Нікнейм",
+    "password":"Пароль",
+    "email":"Електронна адреса"
+}

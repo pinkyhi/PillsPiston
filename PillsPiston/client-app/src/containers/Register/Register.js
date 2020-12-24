@@ -2,13 +2,15 @@ import React, {useState} from 'react'
 import {useIdentity} from './../../hooks/identity.hook'
 import classes from './Register.css'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 
 const Register = () => {
     const {register} = useIdentity()
     const [form, setForm] = useState({
         email: '', username: '', password: ''
     })
-
+    const { t, i18n } = useTranslation();
     const changeHandler = event => {
         setForm(prev =>{return{...prev, [event.target.name]: event.target.value}})
     }
@@ -20,26 +22,26 @@ const Register = () => {
 
     return(
             <div className={classes.Register}> 
-                <h1>Register</h1>
+                <h1>{t('register')}</h1>
                 <form>
                 <div className="form-group">
-                    <label>Email</label>
-                    <input onChange={changeHandler} type="email" name="email" className="form-control" placeholder="Enter email" />
+                    <label>{t('email')}</label>
+                    <input onChange={changeHandler} type="email" name="email" className="form-control" placeholder={t("email")} />
                 </div>
 
                 <div className="form-group">
-                    <label>Username</label>
-                    <input onChange={changeHandler} type="text" name="username" className="form-control" placeholder="Username" />
+                    <label>{t('username')}</label>
+                    <input onChange={changeHandler} type="text" name="username" className="form-control" placeholder={t("username")} />
                 </div>
 
                 <div className="form-group">
-                    <label>Password</label>
-                    <input onChange={changeHandler} type="password" name="password" className="form-control" placeholder="Enter password" />
+                    <label>{t('password')}</label>
+                    <input onChange={changeHandler} type="password" name="password" className="form-control" placeholder={t("password")} />
                 </div>
 
                 <button onClick={registerHandler} type="submit" className="btn btn-dark btn-lg btn-block">Register</button>
                 <p className="forgot-password text-right">
-                    Already registered <Link to="/login">log in?</Link>
+                {t('alreadyRegistered')} <Link to="/login">{t('login')}?</Link>
                 </p>
             </form>
         </div>
