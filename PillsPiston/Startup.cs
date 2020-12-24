@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,6 +58,7 @@ namespace PillsPiston
             this.InstallSwagger(services);
             this.InstallAutoMapper(services);
             this.InstallQuartz(services);
+            this.InstallSpa(services);
 
             services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {
@@ -65,31 +67,6 @@ namespace PillsPiston
             services.AddSignalR();
             services.AddControllers();
             services.AddCors();
-        }
-
-        private void InstallQuartz(IServiceCollection services)
-        {
-            services.Configure<QuartzOptions>(Configuration.GetSection("Quartz"));
-            services.AddQuartz(q =>
-            {
-                q.SchedulerId = "Scheduler-Core";
-                q.UseMicrosoftDependencyInjectionScopedJobFactory(options =>
-                {
-                    options.AllowDefaultConstructor = true;
-                });
-                var jobKey = new JobKey("NotificationsJob");
-                q.AddJob<NotificationsJob>(opts => opts.WithIdentity(jobKey));
-                // Create a trigger for the job
-                q.AddTrigger(opts => opts
-                    .ForJob(jobKey) // link to the HelloWorldJob
-                    .WithIdentity("NotificationsJob-trigger") // give the trigger a unique name
-                    .WithCronSchedule("0 0/5 * 1/1 * ? *")); // run every 5 seconds
-            });
-            services.AddQuartzServer(options =>
-            {
-                // when shutting down we want jobs to complete gracefully
-                options.WaitForJobsToComplete = true;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,11 +97,59 @@ namespace PillsPiston
                     endpoints.MapControllers();
                 });
                 app.UseStaticFiles();
+                if (!env.IsDevelopment())
+                {
+                    app.UseSpaStaticFiles();
+                }
+
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "client-app";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseReactDevelopmentServer(npmScript: "start");
+                    }
+                });
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
             }
+        }
+
+
+        private void InstallQuartz(IServiceCollection services)
+        {
+            services.Configure<QuartzOptions>(Configuration.GetSection("Quartz"));
+            services.AddQuartz(q =>
+            {
+                q.SchedulerId = "Scheduler-Core";
+                q.UseMicrosoftDependencyInjectionScopedJobFactory(options =>
+                {
+                    options.AllowDefaultConstructor = true;
+                });
+                var jobKey = new JobKey("NotificationsJob");
+                q.AddJob<NotificationsJob>(opts => opts.WithIdentity(jobKey));
+                // Create a trigger for the job
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey) // link to the HelloWorldJob
+                    .WithIdentity("NotificationsJob-trigger") // give the trigger a unique name
+                    .WithCronSchedule("0 0/5 * 1/1 * ? *")); // run every 5 seconds
+            });
+            services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
+        }
+
+        private void InstallSpa(IServiceCollection services)
+        {
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "client-app/dist";
+            });
         }
 
         private void InstallFilters(IServiceCollection services)

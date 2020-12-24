@@ -1,0 +1,21 @@
+.Register{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+    padding: 15px;
+    background: linear-gradient(45deg, white 0%, #ccc 100%);
+    margin-top: 100px;
+    border-radius: 10px;
+    border: 2px solid black;
+    transition:0.3s;
+}
+.Register:hover{
+    box-shadow: 0 0 16px #9ecaed;    
+}
+.Register h1{
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: black 0px 0px 3px;
+}
