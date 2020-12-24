@@ -25,8 +25,10 @@ using PillsPiston.DAL.Managers;
 using PillsPiston.DAL.Repositories;
 using PillsPiston.Filters;
 using PillsPiston.Mapper;
+using PillsPiston.Quartz;
 using PillsPiston.WebServices.Interfaces;
 using PillsPiston.WebServices.Services;
+using Quartz;
 
 namespace PillsPiston
 {
@@ -54,6 +56,7 @@ namespace PillsPiston
             this.InstallDataAccess(services);
             this.InstallSwagger(services);
             this.InstallAutoMapper(services);
+            this.InstallQuartz(services);
 
             services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {
@@ -62,6 +65,31 @@ namespace PillsPiston
             services.AddSignalR();
             services.AddControllers();
             services.AddCors();
+        }
+
+        private void InstallQuartz(IServiceCollection services)
+        {
+            services.Configure<QuartzOptions>(Configuration.GetSection("Quartz"));
+            services.AddQuartz(q =>
+            {
+                q.SchedulerId = "Scheduler-Core";
+                q.UseMicrosoftDependencyInjectionScopedJobFactory(options =>
+                {
+                    options.AllowDefaultConstructor = true;
+                });
+                var jobKey = new JobKey("NotificationsJob");
+                q.AddJob<NotificationsJob>(opts => opts.WithIdentity(jobKey));
+                // Create a trigger for the job
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey) // link to the HelloWorldJob
+                    .WithIdentity("NotificationsJob-trigger") // give the trigger a unique name
+                    .WithCronSchedule("0 0/5 * 1/1 * ? *")); // run every 5 seconds
+            });
+            services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -212,7 +240,7 @@ namespace PillsPiston
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<IProfileService, ProfileService>();
-
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         private void InstallAutoMapper(IServiceCollection services)
